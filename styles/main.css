@@ -62,9 +62,17 @@ body.landing {
      color: rgb(233,50,117);
  }
 
+ .links-container .navbar-link:active {
+     background-color: white;
+ }
+
 .container {
     margin: 0 auto;
     max-width: 64rem;
+}
+
+.container.narrow {
+    max-width: 56rem;
 }
 
 .hero-content {
@@ -123,7 +131,7 @@ body.landing {
 
  /* Medium and small screens (640px) */
  @media (min-width: 40rem) {
-     html (font-size:112%;}
+     html {font-size:112%;}
      .column {
          float: left;
          padding-left: 1rem;
@@ -140,7 +148,7 @@ body.landing {
  
  /* Large screens (1024px) */
  @media (min-width: 64rem) {
-     html (font-size:120%;}
+     html {font-size:120%;}
  }
 
  .clearfix:before,
