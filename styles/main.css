@@ -39,7 +39,7 @@ body.landing {
      right: 0;
      height: 100px;
      color: white;
-     text-decoration: none;
+     text-decoration: none; 
  }
 
  .links-container .navbar-link {
@@ -60,6 +60,10 @@ body.landing {
  
  .links-container .navbar-link:hover {
      color: rgb(233,50,117);
+ }
+
+ .links-container .navbar-link:active {
+     background-color: white;
  }
 
 .container {
