@@ -6,11 +6,11 @@
      year: '1881',
      albumArtUrl: 'assets/images/album_covers/01.png',
      songs: [
-         { name: 'Blue', length: '4:26' },
-         { name: 'Green', length: '3:14' },
-         { name: 'Red', length: '5:01' },
-         { name: 'Pink', length: '3:21'},
-         { name: 'Magenta', length: '2:15'}
+         { name: 'Blue', length: '4:26', plays: '1' },
+         { name: 'Green', length: '3:14', plays: '2' },
+         { name: 'Red', length: '5:01', plays: '42' },
+         { name: 'Pink', length: '3:21', plays: '22' },
+         { name: 'Magenta', length: '2:15', plays: '12' }
      ]
  };
  
@@ -24,18 +24,35 @@
      songs: [
          { name: 'Hello, Operator?', length: '1:01' },
          { name: 'Ring, ring, ring', length: '5:01' },
-         { name: 'Fits in your pocket', length: '3:21'},
+         { name: 'Fits in your pocket', length: '3:21' },
          { name: 'Can you hear me now?', length: '3:14' },
-         { name: 'Wrong phone number', length: '2:15'}
+         { name: 'Wrong phone number', length: '2:15' }
      ]
  };
 
- var createSongRow = function(songNumber, songName, songLength) {
+ // Another Example Album
+ var albumBloc = {
+     name: 'Frontend',
+     artist: 'Brett',
+     label: 'B',
+     year: '2015',
+     albumArtUrl: 'https://cdn1.bloc.io/assets/landing/logo-white-507998c9a61c5ecc5fcdc8806b0bc66d.png',
+     songs: [
+         { name: 'Hello, Operator?', length: '1:01' },
+         { name: 'Ring, ring, ring', length: '5:01' },
+         { name: 'Fits in your pocket', length: '3:21' },
+         { name: 'Can you hear me now?', length: '3:14' },
+         { name: 'Wrong phone number', length: '2:15' }
+     ]
+ };
+
+ var createSongRow = function(songNumber, songName, songLength, songPlays) {
       var template =
          '<tr class="album-view-song-item">'
        + '  <td class="song-item-number">' + songNumber + '</td>'
        + '  <td class="song-item-title">' + songName + '</td>'
        + '  <td class="song-item-duration">' + songLength + '</td>'
+       + '  <td class="song-item-plays">' + songPlays + '</td>'
        + '</tr>'
        ;
   
@@ -59,12 +76,14 @@
       // #3
       albumSongList.innerHTML = '';
   
-      // #4
+      // #4 - Why ALBUM.songs.length
       for (i = 0; i < album.songs.length; i++) {
-          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
+          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length, album.songs[i].plays);
       }
   };
   
   window.onload = function() {
       setCurrentAlbum(albumPicasso);
   };
+
+  var nextAlbum = document.addEventListener("click", setCurrentAlbum);
