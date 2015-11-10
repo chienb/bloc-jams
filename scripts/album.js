@@ -84,6 +84,19 @@
   
   window.onload = function() {
       setCurrentAlbum(albumPicasso);
+
+      // get the album cover and save it to a variable
+      // Add the click event listener to the album
+      // Somehow tell the function which album to show
+      var albums = [albumPicasso,albumMarconi,albumBloc];
+      var index = 1;
+      albumImage.addEventListener("click",function(event) {
+          setCurrentAlbum(album[index]);
+          index++;
+          if (index = album.length) {
+            index = 0;
+          } 
+
+      }); 
   };
 
-  var nextAlbum = document.addEventListener("click", setCurrentAlbum);
