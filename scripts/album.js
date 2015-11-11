@@ -76,7 +76,11 @@
       // #3
       albumSongList.innerHTML = '';
   
+<<<<<<< HEAD
       // #4
+=======
+      // #4 - Why ALBUM.songs.length
+>>>>>>> 3874081997f4463849c9b1e1da0639f6f680eb79
       for (i = 0; i < album.songs.length; i++) {
           albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length, album.songs[i].plays);
       }
@@ -91,6 +95,7 @@
   window.onload = function() {
       setCurrentAlbum(albumPicasso);
 
+<<<<<<< HEAD
       var findParentByClassName = function(element, targetClass) {
           var currentParent = element.parentElement; // set an element's (ie?) parent element to be called currentParent 
           if (currentParent) {
@@ -151,21 +156,29 @@
 
 
       // Elements to which we'll be adding listeners
+=======
+>>>>>>> 3874081997f4463849c9b1e1da0639f6f680eb79
       songListContainer.addEventListener('mouseover', function(event) {
           // Only target individual song rows during event delegation
           if (event.target.parentElement.className === 'album-view-song-item') {
               // Change the content from the number to the play button's HTML
+<<<<<<< HEAD
               var songItem = getSongItem(event.target);
               
               if (songItem.getAttribute('data-song-number') !== currentlyPlayingSong) {
               songItem.innerHTML = playButtonTemplate;
               }
+=======
+              event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+
+>>>>>>> 3874081997f4463849c9b1e1da0639f6f680eb79
           }
       });
 
       for (i = 0; i < songRows.length; i++) {
           songRows[i].addEventListener('mouseleave', function(event) {
           // Selects first child element, which is the song-item-number element 
+<<<<<<< HEAD
              // #1
              var songItem = getSongItem(event.target);
              var songItemNumber = songItem.getAttribute('data-song-number');
@@ -179,16 +192,22 @@
 
           songRows[i].addEventListener('click', function(event) {
               clickHandler(event.target);
+=======
+             this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+>>>>>>> 3874081997f4463849c9b1e1da0639f6f680eb79
           });
       }
 
       // Album button templates
        var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+<<<<<<< HEAD
        var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
        
        // Store state of playing songs
        var currentlyPlayingSong = null;
 
+=======
+>>>>>>> 3874081997f4463849c9b1e1da0639f6f680eb79
 
       // get the album cover and save it to a variable
       // Add the click event listener to the album
