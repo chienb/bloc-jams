@@ -162,7 +162,7 @@
               if (songItem.getAttribute('data-song-number') !== currentlyPlayingSong) {
               songItem.innerHTML = playButtonTemplate;
               }
-              event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+              //event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
 
           }
       });
@@ -184,7 +184,7 @@
           songRows[i].addEventListener('click', function(event) {
               clickHandler(event.target);
 
-             this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+             //this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
           });
       }
 
