@@ -75,8 +75,8 @@
   
       // #3
       albumSongList.innerHTML = '';
-  
-      // #4 - Why ALBUM.songs.length
+
+      // #4
       for (i = 0; i < album.songs.length; i++) {
           albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length, album.songs[i].plays);
       }
@@ -162,8 +162,6 @@
               if (songItem.getAttribute('data-song-number') !== currentlyPlayingSong) {
               songItem.innerHTML = playButtonTemplate;
               }
-              //event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
-
           }
       });
 
@@ -184,7 +182,6 @@
           songRows[i].addEventListener('click', function(event) {
               clickHandler(event.target);
 
-             //this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
           });
       }
 
