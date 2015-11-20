@@ -99,6 +99,8 @@
   };
 
 
+
+
   var trackIndex = function(album, song) {
       return album.songs.indexOf(song);
   };
@@ -115,16 +117,19 @@
       };
     
       var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+      console.log("current song index: " + currentSongIndex);
+
       // Note that we're _incrementing_ the song here
       currentSongIndex++;
       
       if (currentSongIndex >= currentAlbum.songs.length) {
           currentSongIndex = 0;
       }
-      
+      console.log("current song index: " + currentSongIndex);
       // Set a new current song
-      currentlyPlayingSongNumber = currentSongIndex + 1;
-      currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+      setSong(currentSongIndex + 1);
+      //currentlyPlayingSongNumber = currentSongIndex + 1;
+      //currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
 
       //
       currentSoundFile.play();
@@ -133,6 +138,7 @@
       updatePlayerBarSong();
       
       var lastSongNumber = getLastSongNumber(currentSongIndex);
+      //
       var $nextSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
       var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
       
@@ -158,8 +164,9 @@
       }
   
       // Set a new current song
-      currentlyPlayingSongNumber = currentSongIndex + 1;
-      currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+      setSong(currentSongIndex + 1);
+      //currentlyPlayingSongNumber = currentSongIndex + 1;
+      //currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
 
       //
       currentSoundFile.play();
@@ -168,8 +175,8 @@
       updatePlayerBarSong();
       
       var lastSongNumber = getLastSongNumber(currentSongIndex);
-      var $previousSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
-      var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+      var $previousSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+      var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
       
       $previousSongNumberCell.html(pauseButtonTemplate);
       $lastSongNumberCell.html(lastSongNumber);
@@ -180,9 +187,10 @@
       if (currentSoundFile) {
           currentSoundFile.stop();
       }
+      console.log(songNumber);
       
       //assign currentlyPlayingSongNumber and currentSongFromAlbum a new value based on the new song number.
-      currentlyPlayingSongNumber =parseInt(songNumber) ;
+      currentlyPlayingSongNumber = parseInt(songNumber) ;
       currentSongFromAlbum = currentAlbum.songs[songNumber-1]; // -1 value because first song's index is 0
       // #1
       currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
@@ -191,8 +199,8 @@
           preload: true
       });
 
-          setVolume(currentVolume);
-    };
+      setVolume(currentVolume);
+  };
       
   var setVolume = function(volume) {
       if (currentSoundFile) {
@@ -216,14 +224,14 @@
 
   var togglePlayFromPlayerBar = function () {
     var $currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber)
-    if (currentSoundFile.isPaused () &&  playerBarPlayButton.click ()) {
+    if (currentSoundFile.isPaused ()) {
       //Change the song number cell from a play button to a pause button
       $currentlyPlayingCell.html(pauseButtonTemplate)
       //Change the HTML of the player bar's play button to a pause button
       $('.main-controls .play-pause').html(playerBarPauseButton)
       //Play the song
       currentSoundFile.play();
-    } else if (currentSoundFile && playerBarPauseButton.click()) {
+    } else if (currentSoundFile) {
       //Change the song number cell from a pause button to a play button
       $currentlyPlayingCell.html(playButtonTemplate)
       //Change the HTML of the player bar's pause button to a play button
@@ -244,7 +252,7 @@
    var currentlyPlayingSongNumber = null;
    var currentSongFromAlbum = null;
    var currentSoundFile = null;
-   var currentVolume = 80;
+   var currentVolume = 5;
 
 
 
