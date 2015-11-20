@@ -26,6 +26,12 @@
             setSong(songNumber);
             currentSoundFile.play();
             updatePlayerBarSong();
+                
+            var $volumeFill = $('.volume .fill');
+            var $volumeThumb = $('.volume .thumb');
+            $volumeFill.width(currentVolume + '%');
+            $volumeThumb.css({left: currentVolume + '%'});
+              
 
            } else if (currentlyPlayingSongNumber === songNumber) {
                 //we need to start playing the song again and revert the icon in the song row and the player bar to the pause button.
@@ -40,18 +46,19 @@
                 currentSoundFile.pause();
               }
            }
+           updateSeekBarWhileSongPlays();
        };
        
            var onHover = function(event) {
                var songNumberCell = $(this).find('.song-item-number');
                var songNumber = parseInt(songNumberCell.attr('data-song-number'));
-               //console.log(songNumber);
-               //console.log(currentlyPlayingSong);
+               console.log(songNumber);
+               console.log(currentlyPlayingSong);
 
-               if (songNumber !== currentlyPlayingSong) {
+               if (songNumber !== currentlyPlayingSong) { //if songNumber is not null (there is a song playing)
                    songNumberCell.html(playButtonTemplate);
                }
-               console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
+               //console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
 
            };
 
@@ -98,7 +105,80 @@
       }
   };
 
+  var updateSeekBarWhileSongPlays = function() {
+       if (currentSoundFile) {
+           // #10
+           currentSoundFile.bind('timeupdate', function(event) {
+               // #11
+               var seekBarFillRatio = this.getTime() / this.getDuration();
+               var $seekBar = $('.seek-control .seek-bar');
+   
+               updateSeekPercentage($seekBar, seekBarFillRatio);
+           });
+       }
+   };
 
+  var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
+     var offsetXPercent = seekBarFillRatio * 100;
+     // #1
+     offsetXPercent = Math.max(0, offsetXPercent);
+     offsetXPercent = Math.min(100, offsetXPercent);
+  
+     // #2
+     var percentageString = offsetXPercent + '%';
+     $seekBar.find('.fill').width(percentageString);
+     $seekBar.find('.thumb').css({left: percentageString});
+  };
+
+  var setupSeekBars = function() {
+      var $seekBars = $('.player-bar .seek-bar');
+  
+      $seekBars.click(function(event) {
+          // #3
+          var offsetX = event.pageX - $(this).offset().left;
+          var barWidth = $(this).width();
+          // #4
+          var seekBarFillRatio = offsetX / barWidth;
+
+          //
+          if ($(this).parent().attr('class') == 'seek-control') {
+              seek(seekBarFillRatio * currentSoundFile.getDuration());
+          } else {
+              setVolume(seekBarFillRatio * 100);   
+          }
+  
+          // #5
+          updateSeekPercentage($(this), seekBarFillRatio);
+      });
+
+      // #6
+      $seekBars.find('.thumb').mousedown(function(event) {
+          // #7
+          var $seekBar = $(this).parent();
+      
+          // #8
+          $(document).bind('mousemove.thumb', function(event){
+              var offsetX = event.pageX - $seekBar.offset().left;
+              var barWidth = $seekBar.width();
+              var seekBarFillRatio = offsetX / barWidth;
+
+              //
+              if ($seekBar.parent().attr('class') == 'seek-control') {
+                  seek(seekBarFillRatio * currentSoundFile.getDuration());   
+              } else {
+                  setVolume(seekBarFillRatio);
+              }
+      
+              updateSeekPercentage($seekBar, seekBarFillRatio);
+          });
+      
+          // #9
+          $(document).bind('mouseup.thumb', function() {
+              $(document).unbind('mousemove.thumb');
+              $(document).unbind('mouseup.thumb');
+          });
+      });
+  };
 
 
   var trackIndex = function(album, song) {
@@ -117,7 +197,7 @@
       };
     
       var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
-      console.log("current song index: " + currentSongIndex);
+      //console.log("current song index: " + currentSongIndex);
 
       // Note that we're _incrementing_ the song here
       currentSongIndex++;
@@ -125,7 +205,7 @@
       if (currentSongIndex >= currentAlbum.songs.length) {
           currentSongIndex = 0;
       }
-      console.log("current song index: " + currentSongIndex);
+      //console.log("current song index: " + currentSongIndex);
       // Set a new current song
       setSong(currentSongIndex + 1);
       //currentlyPlayingSongNumber = currentSongIndex + 1;
@@ -144,6 +224,8 @@
       
       $nextSongNumberCell.html(pauseButtonTemplate);
       $lastSongNumberCell.html(lastSongNumber);
+
+      updateSeekBarWhileSongPlays();
       
   };
 
@@ -180,6 +262,8 @@
       
       $previousSongNumberCell.html(pauseButtonTemplate);
       $lastSongNumberCell.html(lastSongNumber);
+
+      updateSeekBarWhileSongPlays();
       
   };
 
@@ -187,7 +271,7 @@
       if (currentSoundFile) {
           currentSoundFile.stop();
       }
-      console.log(songNumber);
+      //console.log(songNumber);
       
       //assign currentlyPlayingSongNumber and currentSongFromAlbum a new value based on the new song number.
       currentlyPlayingSongNumber = parseInt(songNumber) ;
@@ -201,7 +285,13 @@
 
       setVolume(currentVolume);
   };
-      
+  
+  var seek = function(time) {
+      if (currentSoundFile) {
+          currentSoundFile.setTime(time);
+      }
+  }
+
   var setVolume = function(volume) {
       if (currentSoundFile) {
           currentSoundFile.setVolume(volume);
@@ -266,6 +356,8 @@
       $previousButton.click(previousSong);
       $nextButton.click(nextSong);
       $playButton.click(togglePlayFromPlayerBar);
+      setupSeekBars();
+
 
   }); 
 
