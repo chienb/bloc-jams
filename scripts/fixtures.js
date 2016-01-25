@@ -6,11 +6,11 @@ var albumPicasso = {
     year: '1881',
     albumArtUrl: 'assets/images/album_covers/01.png',
     songs: [
-       { name: 'Blue', length: 268, audioUrl: 'assets/music/1' },
-       { name: 'Green', length: 217.99, audioUrl: 'assets/music/2' },
-       { name: 'Red', length: 252, audioUrl: 'assets/music/3' },
-       { name: 'Pink', length: 240, audioUrl: 'assets/music/4' },
-       { name: 'Magenta', length: 270.99, audioUrl: 'assets/music/5' }
+        { name: 'Blue', length: 161.71, audioUrl: 'assets/music/blue' },
+        { name: 'Green', length: 103.96, audioUrl: 'assets/music/green' },
+        { name: 'Red', length: 268.45, audioUrl: 'assets/music/red' },
+        { name: 'Pink', length: 153.14, audioUrl: 'assets/music/pink' },
+        { name: 'Magenta', length: 374.22, audioUrl: 'assets/music/magenta' }
     ]
 };
 

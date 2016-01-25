@@ -20,15 +20,11 @@ var animatePoints = function() {
      point.style.WebkitTransform = "scaleX(1) translateY(0)";
  }
 
- var animatePoints = function(points) {
-     forEach(points, revealPoint);
-         
- };
-
 $(window).load(function() {
     // #1
     if ($(window).height() > 950) {
         animatePoints();
+    }
     // #2
     var scrollDistance = $('.selling-points').offset().top - $(window).height() + 200;
      // #3
